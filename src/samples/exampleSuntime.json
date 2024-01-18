@@ -1,0 +1,17 @@
+{
+    "results": {
+        "date": "2024-01-15",
+        "sunrise": "7:26:36 AM",
+        "sunset": "5:10:19 PM",
+        "first_light": "5:52:32 AM",
+        "last_light": "6:44:24 PM",
+        "dawn": "6:57:22 AM",
+        "dusk": "5:39:33 PM",
+        "solar_noon": "12:18:28 PM",
+        "golden_hour": "4:29:40 PM",
+        "day_length": "9:43:42",
+        "timezone": "America/New_York",
+        "utc_offset": -300
+    },
+    "status": "OK"
+}
