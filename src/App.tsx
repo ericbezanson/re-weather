@@ -1,18 +1,18 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import axios from 'axios';
 import Current from './components/current';
-import Forcast from './components/forcast';
+import WeeklyForecast from './components/weeklyForecast';
 import DropdownMenu from './components/dropdownMenu';
-import exampleForcast from './samples/exampleForcast.json';
-import exampleForcastWeek from './samples/exampleForcastWeek.json'
+import exampleForecast from './samples/exampleForecast.json';
+import exampleForecastWeek from './samples/exampleForecastWeek.json'
 import { getSunrise } from './helpers';
 import { API_KEY, BASE_URL, FORECAST } from './config';
 import { WeatherData, CombinedData, Forecast } from './common/types';
 
 
 const App: React.FC = () => {
-  const [data, setData] = useState<WeatherData>(exampleForcast);
-  const [forcast, setForcast] = useState<Forecast>(exampleForcastWeek.forecast)
+  const [data, setData] = useState<WeatherData>(exampleForecast);
+  const [forecast, setForecast] = useState<Forecast>(exampleForecastWeek.forecast)
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [useImperial, setUseImperial] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const App: React.FC = () => {
       const { lat, lon } = forecastResponse.data.location; // Replace with actual path to the data
   
       // use lat and lon to use sunrisesunset api to get sun info
-      const sunriseData = await getSunrise(lat, lon); // Replace with actual parameters
+      const sunriseData = await getSunrise(lat, lon);
   
       // Combine data from both APIs
       const combinedData: CombinedData = {
@@ -43,7 +43,7 @@ const App: React.FC = () => {
   
       // Set combined data to state
       setData(combinedData);
-      setForcast(forecastResponse.data.forecast)
+      setForecast(forecastResponse.data.forecast)
     } 
     catch (error) {
       console.error('Error in requests:', error);
@@ -68,7 +68,7 @@ const App: React.FC = () => {
       </div>
       <div className="flex-col px-10 pt-10">
         <Current data={data} useImperial={useImperial} />
-        <Forcast data={forcast} useImperial={useImperial} />
+        <WeeklyForecast data={forecast} useImperial={useImperial} />
       </div>
     </div>
   );
