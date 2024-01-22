@@ -41,7 +41,7 @@ function Current(props: CurrentProps) {
     const currentDate = new Date(location.localtime_epoch).getDate();
 
     return (
-        <div className="flex justify-between mb-10">
+        <div className="flex justify-between mb-16">
             <div className="flex-col w-80">
                 {/* LEFT */}
                 <div className="flex">
