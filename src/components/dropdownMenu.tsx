@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 
-const DropdownMenu = ({ inputValue, setInputValue, onSubmit, useImperial, setUseImperial }) => {
+interface DropdownMenuProps {
+    inputValue?: string;
+    setInputValue: (value: string) => void;
+    onSubmit: (value: string) => void;
+    useImperial: boolean;
+    setUseImperial: (value: boolean) => void;
+  }
+  
+  
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ inputValue, setInputValue, onSubmit, useImperial, setUseImperial }) => {
     const [showMenu, setShowMenu] = useState(false);
 
 
@@ -9,12 +18,13 @@ const DropdownMenu = ({ inputValue, setInputValue, onSubmit, useImperial, setUse
     };
 
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-          onSubmit(inputValue);
-          setShowMenu(false); // Close menu if needed
+    const handleKeyPress = (event: { key: string; }) => {
+        if (event.key === 'Enter' && inputValue !== undefined) {
+            onSubmit(inputValue);
+            setShowMenu(false); // Close menu if needed
         }
-      };
+    };
+    
 
     return (
         <div className="relative inline-block text-left">
