@@ -2,20 +2,19 @@ import React from "react";
 import { days, months } from "../constants";
 import locationIcon from "../assets/icons/location.png"
 import thermometerIcon from "../assets/icons/thermometer.png"
-import { getSunrise } from "../helpers";
+
 
 function Current(props) {
-console.log("PROPS", props)
-const {current, location, sunTime} = props.data
+
+const {current, location, sunriseInfo} = props.data
+const useImperial = props.useImperial
 const currentDay = new Date(location.localtime_epoch).getDay()
 const currentMonth = new Date(location.localtime_epoch).getMonth()
 const currentDate = new Date(location.localtime_epoch).getDate()
-const sunInfo = getSunrise(location.lat, location.lon)
-console.log("SUN INFO", sunInfo)
 
 return (
-    <div class="flex justify-between mb-10">
-        <div class="flex-col w-80">
+    <div className="flex justify-between mb-10">
+        <div className="flex-col w-80">
             {/* LEFT */}
             <div className="flex">
                 <div className="w-24 flex align-middle justify-center">
@@ -32,30 +31,26 @@ return (
                     <img className="size-18" src={thermometerIcon} alt={locationIcon + " Icon"}/>
                 </div>
                 <div className="flex-col">
-                    <p className="font-bold text-7xl mb-4">{current.temp_c}°</p>
-                    <p className="font-thin text-2xl">Feels Like: {current.feelslike_c}°</p>
+                    <p className="font-bold text-7xl mb-4 text-nowrap">{ useImperial ? `${current.temp_f} °F` : `${current.temp_c} °C`}</p>
+                    <p className="font-thin text-2xl text-nowrap">Feels Like: {useImperial ? current.feelslike_f : current.feelslike_c}°{useImperial ? "F" : "C"}</p>
                 </div>
             </div>
         </div>
         {/* MIDDLE */}
-        <div class="flex-col justify-between">
+        <div className="flex-col justify-between">
             <div>
                 <img src={current.condition.icon} alt={current.condition.text + ` Icon`} className="size-80"></img>
             </div>
             <p className="text-center font-thin text-2xl">{current.condition.text}</p>
         </div>
         {/* RIGHT */}
-        <div class="flex-col">
-            {sunInfo.sunrise && sunInfo.sunset &&
-                <>
-                    <p className="font-thin text-2xl p-3">Sunrise: {sunInfo.sunrise}</p>
-                    <p className="font-thin text-2xl p-3">Sunset: {sunInfo.sunset}</p>
-                </>
-            }
-            <p className="font-thin text-2xl p-3">Precipitation: {current.precip_mm}</p>
-            <p className="font-thin text-2xl p-3">Wind Speed: {current.wind_kph} km</p>
+        <div className="flex-col w-64">
+            <p className="font-thin text-2xl p-3">Sunrise: {sunriseInfo ? sunriseInfo.sunrise : ""}</p>
+            <p className="font-thin text-2xl p-3">Sunset: {sunriseInfo ? sunriseInfo.sunset : ""}</p>
+            <p className="font-thin text-2xl p-3">Precipitation: {useImperial ? current.precip_in : current.precip_mm}</p>
+            <p className="font-thin text-2xl p-3">Wind Speed: {useImperial ? `${current.wind_mph} mph` : `${current.wind_kph} km`}</p>
             <p className="font-thin text-2xl p-3">Wind Direction: {current.wind_dir}</p>
-            <p className="font-thin text-2xl p-3">Precipitation: {current.pressure_mb}</p>
+            <p className="font-thin text-2xl p-3">Pressure: {useImperial ?  `${current.pressure_in} psi` : `${current.pressure_mb} mbar`}</p>
         </div>
     </div>
     );
